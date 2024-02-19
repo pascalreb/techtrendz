@@ -16,7 +16,7 @@ function getArticles(PDO $pdo, int $limit = null, int $page = null):array|bool
         $sql .= " LIMIT  :limit";
     }
     if ($limit && $page) {
-        $sql .= " LIMIT :offest, :limit";
+        $sql .= " LIMIT :offset, :limit";
     }
 
     $query = $pdo->prepare($sql);
@@ -26,7 +26,7 @@ function getArticles(PDO $pdo, int $limit = null, int $page = null):array|bool
     }
     if ($page) {
         $offset = ($page - 1) * $limit;
-        $query->bindValue(":offest", $offset, PDO::PARAM_INT);
+        $query->bindValue(":offset", $offset, PDO::PARAM_INT);
     }
 
     $query->execute();

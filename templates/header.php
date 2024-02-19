@@ -14,7 +14,8 @@ $mainMenu = [
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechTrendz</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/override-bootstrap.css">
 </head>
 
@@ -39,7 +40,7 @@ $mainMenu = [
                 <?php if (isset($_SESSION['user'])) { ?>
                     <a href="logout.php" class="btn btn-outline-primary me-2">Déconnexion</a>
                 <?php } else { ?>
-                    <a href="login.php" class="btn btn-outline-primary me-2">Login</a>
+                    <a href="login.php" class="btn btn-outline-primary me-2">Connexion</a>
                     <a href="inscription.php" class="btn btn-primary">Inscription</a>
                 <?php } ?>
             </div>

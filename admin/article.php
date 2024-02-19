@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
     //requête pour récupérer les données de l'article en cas de modification
     $article = getArticleById($pdo, $_GET['id']);
     if ($article === false) {
-        $errors[] = "L'article n\'existe pas";
+        $errors[] = "L'article n\'existe pas.";
     }
     $pageTitle = "Formulaire modification article";
 } else {
@@ -37,36 +37,34 @@ if (isset($_POST['saveArticle'])) {
     
     $fileName = null;
 
-    var_dump($_FILES);
     // Si un fichier est envoyé
     if (isset($_FILES["file"]["tmp_name"]) && $_FILES["file"]["tmp_name"] != '') {
         $checkImage = getimagesize($_FILES["file"]["tmp_name"]);
         if ($checkImage !== false) {
-            $fileName = slugify(basename($_FILES["file"]["name"]));
+            $fileName = slugify(basename($_FILES["file"]["name"])); // fonction slugify permet de cleaner le nom de fichier
             $fileName = uniqid() . '-' . $fileName;
-
 
 
             /* On déplace le fichier uploadé dans notre dossier upload, dirname(__DIR__) 
                 permet de cibler le dossier parent car on se trouve dans admin
             */
-            if (move_uploaded_file($_FILES["file"]["tmp_name"], dirname(__DIR__)._ARTICLES_IMAGES_FOLDER_ . $fileName)) {
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], dirname(__DIR__).'/'. _ARTICLES_IMAGES_FOLDER_ . $fileName)) {
                 if (isset($_POST['image'])) {
                     // On supprime l'ancienne image si on a posté une nouvelle
-                    unlink(dirname(__DIR__)._ARTICLES_IMAGES_FOLDER_ . $_POST['image']);
+                    unlink(dirname(__DIR__).'/'. _ARTICLES_IMAGES_FOLDER_ . $_POST['image']);
                 }
             } else {
-                $errors[] = 'Le fichier n\'a pas été uploadé';
+                $errors[] = 'Le fichier n\'a pas été uploadé.';
             }
         } else {
-            $errors[] = 'Le fichier doit être une image';
+            $errors[] = 'Le fichier doit être une image.';
         }
     } else {
         // Si aucun fichier n'a été envoyé
         if (isset($_GET['id'])) {
             if (isset($_POST['delete_image'])) {
                 // Si on a coché la case de suppression d'image, on supprime l'image
-                unlink(dirname(__DIR__)._ARTICLES_IMAGES_FOLDER_ . $_POST['image']);
+                unlink(dirname(__DIR__).'/'. _ARTICLES_IMAGES_FOLDER_ . $_POST['image']);
             } else {
                 $fileName = $_POST['image'];
             }
@@ -94,7 +92,7 @@ if (isset($_POST['saveArticle'])) {
         $res = saveArticle($pdo, $_POST["title"], $_POST["content"], $fileName, (int)$_POST["category_id"], $id);
 
         if ($res) {
-            $messages[] = "L'article a bien été sauvegardé";
+            $messages[] = "L'article a bien été sauvegardé.";
             //On vide le tableau article pour avoir les champs de formulaire vides
             if (!isset($_GET["id"])) {
                 $article = [
@@ -104,14 +102,13 @@ if (isset($_POST['saveArticle'])) {
                 ];
             }
         } else {
-            $errors[] = "L'article n'a pas été sauvegardé";
+            $errors[] = "L'article n'a pas été sauvegardé.";
         }
     }
 }
 
 ?>
 <h1><?= $pageTitle; ?></h1>
-
 
 
 <?php foreach ($messages as $message) { ?>
@@ -138,7 +135,8 @@ if (isset($_POST['saveArticle'])) {
             <label for="category" class="form-label">Catégorie</label>
             <select name="category_id" id="category" class="form-select">
                 <?php foreach ($categories as $category) { ?>
-                    <option value="1" <?php if (isset($article['category_id']) && $article['category_id'] == $category['id']) { ?>selected="selected" <?php }; ?>><?= $category['name'] ?></option>
+                    <option value="1" <?php if (isset($article['category_id']) && $article['category_id'] == $category['id']) { 
+                        ?>selected="selected" <?php }; ?>><?= $category['name'] ?></option>
                 <?php } ?>
             </select>
         </div>
